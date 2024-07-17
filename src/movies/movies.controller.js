@@ -1,5 +1,6 @@
 const moviesService = require("./movies.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const knex = require("../db/connection");
 
 const movieExists = async (req, res, next) => {
   const movie = await moviesService.read(req.params.movieId);
@@ -26,12 +27,12 @@ const readReviewsByMovie = async (req, res, next) => {
 };
 
 const list = async (req, res, next) => {
-  if (req.query) {
-    req.query.is_showing === "true" &&
-      res.json({ data: await moviesService.listMoviesCurrentlyShowing() });
-  }
-  res.json({ data: await moviesService.list() });
-};
+    const isShowing = req.query.is_showing === "true";
+    const movies = isShowing
+      ? await moviesService.listMoviesCurrentlyShowing()
+      : await moviesService.list();
+    res.json({ data: movies });
+  };
 
 module.exports = {
   list: asyncErrorBoundary(list),

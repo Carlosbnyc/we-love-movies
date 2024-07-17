@@ -12,6 +12,9 @@ app.use(express.json());
 app.use("/movies", moviesRouter);
 app.use("/reviews", reviewsRouter);
 app.use("/theaters", theatersRouter);
+app.get("/", (req, res) => {
+    res.send("Welcome to the We Love Movies API");
+  });
 
 // Not found handler
 app.use((req, res, next) => {

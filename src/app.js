@@ -9,8 +9,6 @@ const theatersRouter = require("./theaters/theaters.router");
 
 app.use(cors()); 
 
-const cors = require("cors");app.use(cors());
-
 app.use(express.json());
 
 app.use("/movies", moviesRouter);
